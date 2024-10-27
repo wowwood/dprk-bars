@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BT Tower Bars</title>
+    <style>
+        @font-face {
+            font-family: 'Monospace 821 WGL';
+            src: url('MONOSPACE821BT.TTF') format('truetype');
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+        }
+
+        .container {
+            background-image: linear-gradient(to right,
+                    #ffffff 12.5%,
+                    #feff00 12.5%,
+                    #feff00 25%,
+                    #01fffe 25%,
+                    #01fffe 37.5%,
+                    #02ff01 37.5%,
+                    #02ff01 50%,
+                    #fd00fe 50%,
+                    #fd00fe 62.5%,
+                    #ff0100 62.5%,
+                    #ff0100 75%,
+                    #0100ff 75%,
+                    #0100ff 87.5%,
+                    #000000 87.5%);
+            height: 100%;
+            aspect-ratio: 16/9;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .bar {
+            width: 100%;
+            position: absolute;
+            background-color: black;
+        }
+
+        .bar-text {
+            color: white;
+            font-family: 'Monospace 821 WGL';
+            font-size: 6vh;
+            margin-left: 5%;
+            letter-spacing: .5rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="bar" id="bar1">
+            <div class="bar-text">
+                BT TOWER HD/3G<br>
+                SDI Channel 4
+            </div>
+        </div>
+        <div class="bar" id="bar2">
+            <div class="bar-text">
+                BT TOWER HD/3G<br>
+                SDI Channel 4
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    const barInterval = 50000;
+    const barIntervalHalf = barInterval / 2;
+
+    function moveBar() {
+
+        let autoplayFix = () => {
+
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // create Oscillator node
+            var oscillator = audioCtx.createOscillator();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 1000; // value in hertz
+            oscillator.connect(audioCtx.destination);
+            oscillator.start();
+            document.removeEventListener('click', autoplayFix);
+        }
+        document.addEventListener('click', autoplayFix);
+
+
+
+        const update = () => {
+            const now = new Date();
+            const bar1 = document.querySelector("#bar1");
+            const bar2 = document.querySelector("#bar2");
+            let marginInterval = (now.getSeconds() * 1000 + now.getMilliseconds()) % barInterval;
+            let margin = 200 * ((marginInterval % barIntervalHalf) / barIntervalHalf) - 100;
+
+            bar1.style.top = `${margin}%`;
+            bar2.style.top = `${((margin + 100 > 150) ? margin - 100 : margin + 100)}%`;
+
+
+            requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    }
+    document.addEventListener("DOMContentLoaded", moveBar);
+</script>
+
+</html>
