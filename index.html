@@ -53,6 +53,7 @@
             font-size: 6vh;
             margin-left: 5%;
             letter-spacing: .5rem;
+            font-weight: 100;
         }
     </style>
 
@@ -94,7 +95,7 @@
             var oscillator = audioCtx.createOscillator();
 
             oscillator.type = 'sine';
-            oscillator.frequency.value = 1000; // value in hertz
+            oscillator.frequency.value = 800; // value in hertz
             oscillator.connect(audioCtx.destination);
             oscillator.start();
             document.removeEventListener('click', autoplayFix);
