@@ -8,23 +8,25 @@
 
 
     <!-- HTML Meta Tags -->
-<title>BT Tower Bars</title>
-<meta name="description" content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
+    <title>BT Tower Bars</title>
+    <meta name="description" content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
 
-<!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://tower.rorsat.com/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="BT Tower Bars">
-<meta property="og:description" content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
-<meta property="og:image" content="cover.png">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://tower.rorsat.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BT Tower Bars">
+    <meta property="og:description"
+        content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
+    <meta property="og:image" content="cover.png">
 
-<!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="tower.rorsat.com">
-<meta property="twitter:url" content="https://tower.rorsat.com/">
-<meta name="twitter:title" content="BT Tower Bars">
-<meta name="twitter:description" content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
-<meta name="twitter:image" content="cover.png">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="tower.rorsat.com">
+    <meta property="twitter:url" content="https://tower.rorsat.com/">
+    <meta name="twitter:title" content="BT Tower Bars">
+    <meta name="twitter:description"
+        content="Ever wanted to see the BT Tower bars and tone in your browser? Now you can!">
+    <meta name="twitter:image" content="cover.png">
 
 
     <style>
@@ -91,32 +93,46 @@
 <body>
     <div class="container">
         <div class="bar" id="bar1">
-            <div class="bar-text">
-                BT TOWER HD/3G<br>
+            <div class="bar-text" id="bar1-text-top">
+                BT TOWER HD/3G
+            </div>
+            <div class="bar-text" id="bar1-text-bottom">
                 SDI Channel 4
             </div>
         </div>
-        <div class="bar" id="bar2">
-            <div class="bar-text">
-                BT TOWER HD/3G<br>
+        <div class="bar" id="bar2"> <!--second bar to achieve overlap-->
+            <div class="bar-text" id="bar2-text-top">
+                BT TOWER HD/3G
+            </div>
+            <div class="bar-text" id="bar2-text-bottom">
                 SDI Channel 4
             </div>
         </div>
     </div>
 </body>
 <script>
-    // const params = new URLSearchParams(window.location.search);
-    // const barText = params.has('bar') ? params.get('bar') : '';
-    //  const bar = document.getElementsByClassName('bar');
+    const params = new URLSearchParams(window.location.search);
+    
+    const barTextTop = params.has('bar-top') ? params.get('bar-top') : 'BT TOWER HD/3G';
+    const barTextBottom = params.has('bar-bottom') ? params.get('bar-bottom') : 'SDI Channel 4';
+    const bar1Top = document.querySelector('#bar1-text-top');
+    const bar1Bottom = document.querySelector('#bar1-text-bottom');
+    const bar2Top = document.querySelector('#bar2-text-top');
+    const bar2Bottom = document.querySelector('#bar2-text-bottom');
 
-    // bar.innerText = barText;
+    bar1Top.innerText = barTextTop;
+    bar1Bottom.innerText = barTextBottom;
+    bar2Top.innerText = barTextTop;
+    bar2Bottom.innerText = barTextBottom;
 
-    const barInterval = 50000;
+    const barInterval = params.has('interval') ? params.get('interval') : '50000';
     const barIntervalHalf = barInterval / 2;
 
-    function moveBar() {
 
-        let autoplayFix = () => {
+
+    function moveBar() { //recursive function to make the bar move
+
+        let autoplayFix = () => { //fix for sound - when clicked play audio
 
             var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -134,10 +150,10 @@
 
 
         const update = () => {
-            const now = new Date();
+            const now = new Date(); //make now equal to the date
             const bar1 = document.querySelector("#bar1");
             const bar2 = document.querySelector("#bar2");
-            let marginInterval = (now.getSeconds() * 1000 + now.getMilliseconds()) % barInterval;
+            let marginInterval = (now.getSeconds() * 1000 + now.getMilliseconds()) % barInterval; //work out the interval between the bar
             let margin = 200 * ((marginInterval % barIntervalHalf) / barIntervalHalf) - 100;
 
             bar1.style.top = `${margin}%`;
@@ -149,7 +165,7 @@
 
         requestAnimationFrame(update);
     }
-    document.addEventListener("DOMContentLoaded", moveBar);
+    document.addEventListener("DOMContentLoaded", moveBar); //when content loaded, run the moveBar function
 </script>
 
 </html>
